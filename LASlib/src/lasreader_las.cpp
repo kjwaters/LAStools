@@ -751,6 +751,10 @@ BOOL LASreaderLAS::open(ByteStreamIn* stream, BOOL peek_only, U32 decompress_sel
             }
             header.vlr_geo_ogc_wkt = (CHAR*)header.vlrs[i].data;
           }
+          else if (header.vlrs[i].record_id == 7) // superseded 
+          {
+            // do nothing
+          }
           else
           {
             fprintf(stderr,"WARNING: unknown LASF_Projection VLR with record_id %d.\n", header.vlrs[i].record_id);
@@ -1157,6 +1161,10 @@ BOOL LASreaderLAS::open(ByteStreamIn* stream, BOOL peek_only, U32 decompress_sel
                 fprintf(stderr,"WARNING: extended variable length records contain more than one WKT OGC COORDINATE SYSTEM\n");
               }
               header.vlr_geo_ogc_wkt = (CHAR*)header.evlrs[i].data;
+            }
+            else if (header.evlrs[i].record_id == 7) // superseded record
+            {
+              // do nothing
             }
             else
             {
